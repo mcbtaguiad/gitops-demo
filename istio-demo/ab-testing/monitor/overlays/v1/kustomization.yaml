@@ -13,17 +13,3 @@ patches:
     target:
       kind: Service
       name: monitor
-
-  # - path: name-patch.json
-  #   target:
-  #     kind: Service
-  #     name: monitor
-  #
-  # - path: name-patch.json
-  #   target:
-  #     kind: Deployment
-  #     name: monitor
-
-images:
-  - name: ghcr.io/mcbtaguiad/istio-demo/monitor
-    newTag: 65c73956809439faa84e832123f3875b9069340f
