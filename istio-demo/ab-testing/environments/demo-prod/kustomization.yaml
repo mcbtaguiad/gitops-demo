@@ -25,27 +25,58 @@ resources:
 
 
 patches:
-- target:
-    group: security.istio.io
-    version: v1
-    kind: AuthorizationPolicy
-    name: read-write-frontend-to-backend 
-  path: frontend-authpolicy-patch.yaml
+  - target:
+      group: security.istio.io
+      version: v1
+      kind: AuthorizationPolicy
+      name: read-write-frontend-to-backend 
+    path: frontend-authpolicy-patch.yaml
 
-- target:
-    group: security.istio.io
-    version: v1
-    kind: AuthorizationPolicy
-    name: read-write-monitor-to-backend
-  path: monitor-authpolicy-patch.yaml
+  - target:
+      group: security.istio.io
+      version: v1
+      kind: AuthorizationPolicy
+      name: read-write-monitor-to-backend
+    path: monitor-authpolicy-patch.yaml
 
-- target:
-    group: networking.istio.io
-    version: v1
-    kind: Gateway
-    name: demo-app-gateway
-  path: demo-app-gateway-patch.yaml
+  - target:
+      group: networking.istio.io
+      version: v1
+      kind: Gateway
+      name: demo-app-gateway
+    path: demo-app-gateway-patch.yaml
 
+  - target:
+      kind: Deployment
+      name: backend-v1
+    patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: ghcr.io/mcbtaguiad/istio-demo/backend:65c73956809439faa84e832123f3875b9069340f
+
+  - target:
+      kind: Deployment
+      name: backend-v2
+    patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: ghcr.io/mcbtaguiad/istio-demo/backend:4c0718648d8ea5e30863e6b6b32f530243ee0794
+
+  - target:
+      kind: Deployment
+      name: monitor-v1
+    patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: ghcr.io/mcbtaguiad/istio-demo/monitor:65c73956809439faa84e832123f3875b9069340f
+
+  - target:
+      kind: Deployment
+      name: monitor-v2
+    patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: ghcr.io/mcbtaguiad/istio-demo/monitor:4c0718648d8ea5e30863e6b6b32f530243ee0794
 
 configMapGenerator:
 - name: backend-config-v1
