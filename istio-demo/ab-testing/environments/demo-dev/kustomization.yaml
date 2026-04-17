@@ -1,103 +1,84 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
 namespace: demo-dev
-
 resources:
   - namespace.yaml
-
   # shared/common (ONLY ONCE)
   - ../../backend/common
   - ../../monitor/common
-
   # versions
   - ../../backend/overlays/v1
   - ../../backend/overlays/v2
   - ../../monitor/overlays/v1
   - ../../monitor/overlays/v2
-
   # others
   - ../../frontend/base
   - ../../redis/base
-
   # istio
   - ../../istio/base
-
   # smoke-test
   - ../../smoke-test/base
-
 patches:
   - target:
       group: security.istio.io
       version: v1
       kind: AuthorizationPolicy
-      name: read-write-frontend-to-backend 
+      name: read-write-frontend-to-backend
     path: frontend-authpolicy-patch.yaml
-
   - target:
       group: security.istio.io
       version: v1
       kind: AuthorizationPolicy
       name: read-write-monitor-to-backend
     path: monitor-authpolicy-patch.yaml
-
   - target:
       group: networking.istio.io
       version: v1
       kind: Gateway
       name: demo-app-gateway
     path: demo-app-gateway-patch.yaml
-
   - target:
       kind: Deployment
       name: backend-v1
     patch: |
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: ghcr.io/mcbtaguiad/istio-demo/backend:65c73956809439faa84e832123f3875b9069340f
-
+        value: ghcr.io/mcbtaguiad/istio-demo/backend:89ea868422904cff1953e0018fdb25a8e272dfca
   - target:
       kind: Deployment
       name: backend-v2
     patch: |
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: ghcr.io/mcbtaguiad/istio-demo/backend:4c0718648d8ea5e30863e6b6b32f530243ee0794
-
+        value: ghcr.io/mcbtaguiad/istio-demo/backend:04adef647cfdbfeddccbce80282c8f0f1c23f1cf
   - target:
       kind: Deployment
       name: monitor-v1
     patch: |
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: ghcr.io/mcbtaguiad/istio-demo/monitor:65c73956809439faa84e832123f3875b9069340f
-
+        value: ghcr.io/mcbtaguiad/istio-demo/monitor:89ea868422904cff1953e0018fdb25a8e272dfca
   - target:
       kind: Deployment
       name: monitor-v2
     patch: |
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: ghcr.io/mcbtaguiad/istio-demo/monitor:4c0718648d8ea5e30863e6b6b32f530243ee0794
-
-
+        value: ghcr.io/mcbtaguiad/istio-demo/monitor:04adef647cfdbfeddccbce80282c8f0f1c23f1cf
 configMapGenerator:
-- name: backend-config-v1
-  literals:
-  - VERSION=1.0.0
-  - ALLOWED_HOSTS=http://192.168.254.222
-
-- name: backend-config-v2
-  literals:
-  - VERSION=2.0.0
-  - ALLOWED_HOSTS=http://192.168.254.222
-
-- name: monitor-config-v1
-  literals:
-  - VERSION=1.0.0
-  - DEMO_APP_HOST=http://192.168.254.222
-
-- name: monitor-config-v2
-  literals:
-  - VERSION=2.0.0
-  - DEMO_APP_HOST=http://192.168.254.222
+  - name: backend-config-v1
+    literals:
+      - VERSION=1.0.0
+      - ALLOWED_HOSTS=http://192.168.254.222
+  - name: backend-config-v2
+    literals:
+      - VERSION=2.0.0
+      - ALLOWED_HOSTS=http://192.168.254.222
+  - name: monitor-config-v1
+    literals:
+      - VERSION=1.0.0
+      - DEMO_APP_HOST=http://192.168.254.222
+  - name: monitor-config-v2
+    literals:
+      - VERSION=2.0.0
+      - DEMO_APP_HOST=http://192.168.254.222
