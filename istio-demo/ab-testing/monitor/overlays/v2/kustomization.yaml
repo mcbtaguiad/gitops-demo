@@ -1,0 +1,35 @@
+resources:
+  - ../../base
+
+nameSuffix: -v2
+
+patches:
+  - path: deployment-patch.yaml
+    target:
+      kind: Deployment
+      name: monitor
+
+  - path: service-patch.yaml
+    target:
+      kind: Service
+      name: monitor
+
+  # - path: name-patch.json
+  #   target:
+  #     kind: Service
+  #     name: monitor
+  #
+  # - path: name-patch.json
+  #   target:
+  #     kind: Deployment
+  #     name: monitor
+
+configMapGenerator:
+- name: monitor-config
+  literals:
+  - VERSION=2.0.0
+  - DEMO_APP_HOST=http://192.168.254.220,https://istio-demo-dev.marktaguiad.dev,https://istio-demo-prod.marktaguiad.dev
+
+images:
+  - name: ghcr.io/mcbtaguiad/istio-demo/monitor
+    newTag: 4c0718648d8ea5e30863e6b6b32f530243ee0794
