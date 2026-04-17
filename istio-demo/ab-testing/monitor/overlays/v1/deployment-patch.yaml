@@ -18,5 +18,5 @@ spec:
         imagePullPolicy: Always
         envFrom:
         - configMapRef:
-            name: monitor-config
+            name: monitor-config-v1
       restartPolicy: Always

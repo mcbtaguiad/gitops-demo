@@ -18,5 +18,5 @@ spec:
         imagePullPolicy: Always
         envFrom:
         - configMapRef:
-            name: backend-config
+            name: backend-config-v2
       restartPolicy: Always
