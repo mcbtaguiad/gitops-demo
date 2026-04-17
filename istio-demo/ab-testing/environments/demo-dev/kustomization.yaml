@@ -23,6 +23,9 @@ resources:
   # istio
   - ../../istio/base
 
+  # smoke-test
+  - ../../smoke-test/base
+
 patches:
 - target:
     group: security.istio.io
@@ -37,3 +40,32 @@ patches:
     kind: AuthorizationPolicy
     name: read-write-monitor-to-backend
   path: monitor-authpolicy-patch.yaml
+
+- target:
+    group: networking.istio.io
+    version: v1
+    kind: Gateway
+    name: demo-app-gateway
+  path: demo-app-gateway-patch.yaml
+
+
+configMapGenerator:
+- name: backend-config-v1
+  literals:
+  - VERSION=1.0.0
+  - ALLOWED_HOSTS=http://192.168.254.222
+
+- name: backend-config-v2
+  literals:
+  - VERSION=2.0.0
+  - ALLOWED_HOSTS=http://192.168.254.222
+
+- name: monitor-config-v1
+  literals:
+  - VERSION=1.0.0
+  - DEMO_APP_HOST=http://192.168.254.222
+
+- name: monitor-config-v2
+  literals:
+  - VERSION=2.0.0
+  - DEMO_APP_HOST=http://192.168.254.222
