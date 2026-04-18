@@ -43,28 +43,28 @@ patches:
     patch: |
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: ghcr.io/mcbtaguiad/istio-demo/backend:04adef647cfdbfeddccbce80282c8f0f1c23f1cf
+        value: ghcr.io/mcbtaguiad/istio-demo/backend:85bff975d81efde1ecce481a3de5d1087b98df5e
   - target:
       kind: Deployment
       name: backend-v2
     patch: |
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: ghcr.io/mcbtaguiad/istio-demo/backend:85bff975d81efde1ecce481a3de5d1087b98df5e
+        value: ghcr.io/mcbtaguiad/istio-demo/backend:fe9d5ceee36519bd3dbab03bc15d3de96e7c8e68
   - target:
       kind: Deployment
       name: monitor-v1
     patch: |
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: ghcr.io/mcbtaguiad/istio-demo/monitor:04adef647cfdbfeddccbce80282c8f0f1c23f1cf
+        value: ghcr.io/mcbtaguiad/istio-demo/monitor:85bff975d81efde1ecce481a3de5d1087b98df5e
   - target:
       kind: Deployment
       name: monitor-v2
     patch: |
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: ghcr.io/mcbtaguiad/istio-demo/monitor:85bff975d81efde1ecce481a3de5d1087b98df5e
+        value: ghcr.io/mcbtaguiad/istio-demo/monitor:fe9d5ceee36519bd3dbab03bc15d3de96e7c8e68
 configMapGenerator:
   - name: backend-config-v1
     literals:
