@@ -17,7 +17,7 @@ resources:
   # istio
   - ../../istio/base
   # smoke-test
-  - ../../smoke-test/base
+  # - ../../smoke-test/base
 patches:
   - target:
       group: security.istio.io
