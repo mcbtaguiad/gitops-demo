@@ -24,7 +24,7 @@ resources:
   - ../../istio/base
 
   # smoke-test
-  - ../../smoke-test/base
+  # - ../../smoke-test/base
 
 patches:
   - target:
